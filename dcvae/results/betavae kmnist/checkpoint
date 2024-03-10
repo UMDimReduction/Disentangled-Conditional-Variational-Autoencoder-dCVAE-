@@ -1,0 +1,2 @@
+model_checkpoint_path: "betaVAE-e49975f705484e84ae2e0fb12947ec46-epoch-1.ckpt"
+all_model_checkpoint_paths: "betaVAE-e49975f705484e84ae2e0fb12947ec46-epoch-1.ckpt"

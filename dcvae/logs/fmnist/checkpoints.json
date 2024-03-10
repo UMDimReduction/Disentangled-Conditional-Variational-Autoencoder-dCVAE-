@@ -1,0 +1,38 @@
+{
+    "shallow": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\shallow_general\\version_1\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\shallow_anomaly\\version_1\\checkpoints\\epoch=4.ckpt"
+    },
+    "vanilla": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\vanilla_general\\version_1\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\vanilla_anomaly\\version_1\\checkpoints\\epoch=4.ckpt"
+    },
+    "stacked": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\stacked_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\stacked_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    },
+    "sparse": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\sparse_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\sparse_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    },
+    "denoising": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\denoising_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\denoising_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    },
+    "vae": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\vae_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\vae_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    },
+    "beta_vae_strict": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\beta_vae_strict_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\beta_vae_strict_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    },
+    "beta_vae_loose": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\beta_vae_loose_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\beta_vae_loose_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    },
+    "vq": {
+        "general": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\vq_general\\version_0\\checkpoints\\epoch=4.ckpt",
+        "anomaly": "C:\\Users\\neloy\\OneDrive\\GitHub\\Thesis\\Disentangled-Conditional-Variational-Autoencoder\\dcvae\\logs\\fmnist\\vq_anomaly\\version_0\\checkpoints\\epoch=4.ckpt"
+    }
+}

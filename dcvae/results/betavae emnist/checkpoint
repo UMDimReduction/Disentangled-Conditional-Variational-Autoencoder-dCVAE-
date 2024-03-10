@@ -1,0 +1,2 @@
+model_checkpoint_path: "betavae-8e17c28a6739494cbf9458ca6a2af16f.ckpt"
+all_model_checkpoint_paths: "betavae-8e17c28a6739494cbf9458ca6a2af16f.ckpt"
