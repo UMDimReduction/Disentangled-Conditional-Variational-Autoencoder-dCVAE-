@@ -23,23 +23,23 @@ Run:
 
 ### Reconstructions
 
-![Reconstructions](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/tree/main/dcvae/results/Figures/reconstruction.png?raw=true)
+![Reconstructions](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/reconstruction.png?raw=true)
 
 ### Latent Representation (MNIST)
 
-![Latent Representation (MNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/tree/main/dcvae/results/Figures/Figures/Latent_MNIST.png?raw=true)
+![Latent Representation (MNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_MNIST.png?raw=true)
 
 ### Latent Representation (FMNIST)
 
-![Latent Representation (FMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/tree/main/dcvae/results/Figures/Latent_FMNIST.png?raw=true)
+![Latent Representation (FMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_FMNIST.png?raw=true)
 
 ### Latent Representation (EMNIST)
 
-![Latent Representation (EMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/tree/main/dcvae/results/Figures/Latent_EMNIST.png?raw=true)
+![Latent Representation (EMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_EMNIST.png?raw=true)
 
 ### Latent Representation (KMNIST)
 
-![Latent Representation (KMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/tree/main/dcvae/results/FiguresLatent_KMNIST.png?raw=true)
+![Latent Representation (KMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_KMNIST.png?raw=true)
 
 
 ## License
