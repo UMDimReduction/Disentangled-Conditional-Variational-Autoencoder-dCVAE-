@@ -1,0 +1,2 @@
+model_checkpoint_path: "FactorVAE-cac79bb4f8044976a6355b17e43d69bb.ckpt"
+all_model_checkpoint_paths: "FactorVAE-cac79bb4f8044976a6355b17e43d69bb.ckpt"

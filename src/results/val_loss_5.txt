@@ -1,0 +1,1 @@
+Best Validation Loss: 10627.9316

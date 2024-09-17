@@ -1,0 +1,2 @@
+model_checkpoint_path: "dcvae-e92497ee2a1a42bb9da929dbbd9ab5a6.ckpt"
+all_model_checkpoint_paths: "dcvae-e92497ee2a1a42bb9da929dbbd9ab5a6.ckpt"

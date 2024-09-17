@@ -1,0 +1,2 @@
+model_checkpoint_path: "RFVAE-3900046bedf2459bb9c3bf09c7c558e3.ckpt"
+all_model_checkpoint_paths: "RFVAE-3900046bedf2459bb9c3bf09c7c558e3.ckpt"

@@ -1,0 +1,2 @@
+model_checkpoint_path: "betavae-aa101f9bb32a471ebe120629700e2402.ckpt"
+all_model_checkpoint_paths: "betavae-aa101f9bb32a471ebe120629700e2402.ckpt"

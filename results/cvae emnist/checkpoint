@@ -1,0 +1,2 @@
+model_checkpoint_path: "cvae-cdf64b7811e44a3aaa104b5a2b9dba69.ckpt"
+all_model_checkpoint_paths: "cvae-cdf64b7811e44a3aaa104b5a2b9dba69.ckpt"
