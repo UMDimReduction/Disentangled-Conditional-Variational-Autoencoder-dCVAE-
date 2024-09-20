@@ -12,11 +12,11 @@ Recently, generative models have shown promising performance in anomaly detectio
 ## Usage
 
 ```python
-   cd ./dcvae
+   cd ./dcvae/src
 ```
 Run:
 ```python
-   python main.py --model <model> --task <dataset> --beta 2.0 --num_epochs 100  --batch_size 64 [--gpu]
+   python run.py vae --dataset fmnist --batch_size 64 --downstream_task umap --epochs 50
 ```
 
 ## Results

@@ -1,93 +1,98 @@
-from src.libraries import *
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import pytorch_lightning as pl
 
-class Discriminator(tf.keras.Model):
-    def __init__(self):
-        super(Discriminator, self).__init__()
-        self.network = tf.keras.Sequential([
-            tf.keras.layers.Dense(100),
-            tf.keras.layers.LeakyReLU(alpha=0.2),
-            tf.keras.layers.Dense(100),
-            tf.keras.layers.LeakyReLU(alpha=0.2),
-            tf.keras.layers.Dense(2, activation='softmax')
-        ])
+class FactorVAE(pl.LightningModule):
+    def __init__(self, input_shape, latent_dim, lr=1e-3):
+        super(FactorVAE, self).__init__()
+        self.input_shape = input_shape
+        self.input_dim = int(torch.prod(torch.tensor(input_shape)))
+        self.latent_dim = latent_dim
+        self.lr = lr
 
-    def call(self, z):
-        return self.network(z)
+        # Encoder network
+        self.encoder = nn.Sequential(
+            nn.Linear(self.input_dim, 512),
+            nn.ReLU(),
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            nn.Linear(256, 2 * latent_dim)  # mu and log_var for latent space
+        )
 
+        # Decoder network
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, 512),
+            nn.ReLU(),
+            nn.Linear(512, self.input_dim),
+            nn.Sigmoid()
+        )
 
-class FactorVAE(BetaVAE):
-    def __init__(self, latent_dim, input_dims=(28, 28, 1), kernel_size=(3, 3), strides=(2, 2), prefix='FactorVAE'):
-        super(FactorVAE, self).__init__(latent_dim, input_dims=input_dims, kernel_size=kernel_size, strides=strides,
-                                        prefix=prefix)
-        self.discriminator = Discriminator()
+        # Discriminator for estimating Total Correlation (TC)
+        self.discriminator = nn.Sequential(
+            nn.Linear(latent_dim, 512),
+            nn.ReLU(),
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            nn.Linear(256, 1)  # Output a scalar value for real/fake prediction
+        )
 
-    def train_step(self, batch, optimizers, **kwargs):
-        self.set_discriminator_trainable(False)
-        batch_0, batch_1 = tf.split(batch['x'], 2, axis=0)
-        split_batch = [{'x': batch_0}, {'x': batch_1}]
+    def encode(self, x):
+        x = x.view(-1, self.input_dim)  # Flatten the input
+        encoded = self.encoder(x)
+        mu, log_var = torch.chunk(encoded, 2, dim=1)
+        return mu, log_var
 
-        with tf.GradientTape() as tape:
-            elbo, logpx_z, kl_divergence = self.elbo(split_batch[0], **kwargs)
-            gradients = tape.gradient(-1 * elbo, self.trainable_variables)
-            optimizers['primary'].apply_gradients(zip(gradients, self.trainable_variables))
+    def reparameterize(self, mu, log_var):
+        std = torch.exp(0.5 * log_var)
+        eps = torch.randn_like(std)
+        return eps * std + mu
 
-        self.train_step_discriminator(split_batch, optimizers)
-        return elbo, logpx_z, kl_divergence
+    def decode(self, z):
+        decoded = self.decoder(z)
+        return decoded.view(-1, *self.input_shape)  # Reshape back to original input shape
 
-    def train_step_discriminator(self, split_batch, optimizers):
-        self.set_discriminator_trainable(True)
-        with tf.GradientTape() as tape:
-            num_samples = split_batch[0]['x'].shape[0]
-            mean_z0, logvar_z0 = self.encode(split_batch[0])
-            z0_sample = self.reparameterize(mean_z0, logvar_z0)
+    def forward(self, x):
+        mu, log_var = self.encode(x)
+        z = self.reparameterize(mu, log_var)
+        return self.decode(z), mu, log_var
 
-            mean_z1, logvar_z1 = self.encode(split_batch[1])
-            z1_sample = self.reparameterize(mean_z1, logvar_z1)
-            z1_sample_perm = FactorVAE.permute_dims(z1_sample)
+    def _estimate_total_correlation(self, z):
+        # Real samples from the model
+        real_scores = self.discriminator(z)
 
-            density = self.discriminator(tf.concat([z0_sample, z1_sample_perm], axis=0))
-            labels = FactorVAE.create_discriminator_label(num_samples)
+        # Fake samples by shuffling across batch
+        permuted_z = z[torch.randperm(z.size(0))]
+        fake_scores = self.discriminator(permuted_z)
 
-            discriminator_loss = tf.keras.losses.CategoricalCrossentropy()(labels, density)
-            gradients = tape.gradient(discriminator_loss, self.trainable_variables)
-            optimizers['secondary'].apply_gradients(zip(gradients, self.trainable_variables))
+        # Total Correlation loss is the difference between real and fake samples
+        tc_loss = (real_scores - fake_scores).mean()
 
-        return discriminator_loss
+        return tc_loss
 
-    def set_discriminator_trainable(self, trainable=True):
-        self.discriminator.trainable = trainable
-        self.encoder.trainable = not trainable
-        self.decoder.trainable = not trainable
+    def training_step(self, batch, batch_idx):
+        x, _ = batch
+        x_hat, mu, log_var = self(x)
+        recon_loss = F.binary_cross_entropy(x_hat.view(-1, self.input_dim), x.view(-1, self.input_dim), reduction='sum')
+        kl_loss = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
+        z = self.reparameterize(mu, log_var)
+        tc_loss = self._estimate_total_correlation(z)
+        loss = recon_loss + kl_loss + tc_loss
+        self.log('train_loss', loss)
+        return loss
 
-    def elbo(self, batch, **kwargs):
-        beta = kwargs['beta'] if 'beta' in kwargs else 1.0
-        mean_z, logvar_z, z_sample, x_pred = self.forward(batch)
+    def validation_step(self, batch, batch_idx):
+        x, _ = batch
+        x_hat, mu, log_var = self(x)
+        recon_loss = F.binary_cross_entropy(x_hat.view(-1, self.input_dim), x.view(-1, self.input_dim), reduction='sum')
+        kl_loss = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
+        z = self.reparameterize(mu, log_var)
+        tc_loss = self._estimate_total_correlation(z)
+        val_loss = recon_loss + kl_loss + tc_loss
+        self.log('val_loss', val_loss)
+        return val_loss
 
-        logpx_z = log_bernouli_pdf(x_pred, batch['x'])
-        logpx_z = tf.reduce_sum(logpx_z, axis=[1, 2, 3])
-
-        kl_divergence = tf.reduce_sum(kl_divergence_standard_prior(mean_z, logvar_z), axis=1)
-
-        density = self.discriminator(z_sample)
-        tc_loss = tf.reduce_mean(density[:, 0] - density[:, 1])
-
-        elbo = tf.reduce_mean(logpx_z - (kl_divergence + (beta - 1) * tc_loss))
-
-        return elbo, tf.reduce_mean(logpx_z), tf.reduce_mean(kl_divergence)
-
-    @staticmethod
-    def permute_dims(z):
-        num_dims = z.shape[-1]
-        z_perm = []
-        for z_dim in tf.split(z, tf.ones(num_dims, dtype=tf.int32), axis=-1):
-            # z_perm.append(tf.random.shuffle(z_dim)) # tf.random.shuffle not implemented for GPU
-            z_perm.append(
-                tf.gather(z_dim, tf.random.shuffle(tf.range(z_dim.shape[0]))))  # hacky way to address the issue
-
-        return tf.stop_gradient(tf.concat(z_perm, axis=1))
-
-    @staticmethod
-    def create_discriminator_label(num_samples):
-        label_for_z = tf.concat([tf.ones((num_samples, 1)), tf.zeros((num_samples, 1))], axis=1)
-        label_for_z_perm = tf.concat([tf.zeros((num_samples, 1)), tf.ones((num_samples, 1))], axis=1)
-        return tf.concat([label_for_z, label_for_z_perm], axis=0)
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=self.lr)
