@@ -103,7 +103,7 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
+.venv/
 env/
 venv/
 ENV/
@@ -129,3 +129,13 @@ dmypy.json
 .pyre/
 .tfrecord-00000-of-00001
 .csv
+
+# Project-specific ignores
+data/
+results/
+src/data/
+src/results/
+src/checkpoints/
+src/lightning_logs/
+checkpoints/
+lightning_logs/

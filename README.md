@@ -12,34 +12,14 @@ Recently, generative models have shown promising performance in anomaly detectio
 ## Usage
 
 ```python
-   cd ./dcvae/src
+   cd src
 ```
 Run:
 ```python
    python run.py vae --dataset fmnist --batch_size 64 --downstream_task umap --epochs 50
 ```
 
-## Results
 
-### Reconstructions
-
-![Reconstructions](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/reconstruction.png?raw=true)
-
-### Latent Representation (MNIST)
-
-![Latent Representation (MNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_MNIST.png?raw=true)
-
-### Latent Representation (FMNIST)
-
-![Latent Representation (FMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_FMNIST.png?raw=true)
-
-### Latent Representation (EMNIST)
-
-![Latent Representation (EMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_EMNIST.png?raw=true)
-
-### Latent Representation (KMNIST)
-
-![Latent Representation (KMNIST)](https://github.com/UMDimReduction/Disentangled-Conditional-Variational-Autoencoder-dCVAE-/blob/main/dcvae/results/Figures/Latent_KMNIST.png?raw=true)
 
 
 ## License
